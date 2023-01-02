@@ -1,0 +1,157 @@
+:root {
+--main-bg: rgb(238, 238, 238);
+--stage-time-bg: rgba(217, 217, 217);
+--blue-slot-bg: rgba(52, 129, 174, 0.3);
+--break-bg: rgba(83, 83, 83);
+--break-text: rgba(38, 38, 38, 1);
+--break-time-highlight: rgba(255, 110, 5, 0.5);
+}
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+html {
+font-size: 62.5%;
+}
+body {
+height: 100%;
+background: var(--main-bg);
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+font-size: 1.6rem;
+line-height: 1.5;
+}
+
+/*===== GRID STYLING =====*/
+.main-container {
+min-height: 100vh;
+display: grid;
+grid-template-columns: repeat(8, 1fr);
+grid-template-rows: repeat(11, 1fr);
+gap: 1.5rem;
+}
+
+/*===== TOP TECHNICIANS CONTAINER ====*/
+.technicians-container-row {
+grid-column: 2 / -1;
+grid-row: 1 / 2;
+}
+.technicians {
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.technician {
+padding: 3rem 4rem;}
+.technician, .time {
+background: var(--stage-time-bg);
+border-radius: 1rem;}
+.details {
+display: flex;
+flex-direction: column;}
+
+/*===== LEFT TIMINGS CONTAINER =====*/
+.timing-container-column {
+grid-column: 1 / 2;
+grid-row: 1 / -1;
+}
+.timings {
+height: 100%;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+padding: 0 1rem;
+}
+.timing {
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 3rem;
+background: var(--stage-time-bg);
+border-radius: 1rem;
+}
+
+/*===== SUBGRID OF OUR MAIN UI =====*/
+.subgrid-main-ui {
+grid-column: 2 / -1;
+grid-row: 2 / -1;
+display: grid;
+/* Currenlty not supported by Chrome, please check it in Firefox
+        to see the subgrid option*/
+grid-template-columns: subgrid;
+grid-template-rows: repeat(10, 1fr);
+gap: 1rem;
+}
+
+/*===== SLOTS INSIDE SUGBID =====*/
+.slot {
+flex-direction: column;
+padding: 1rem;
+background: var(--blue-slot-bg);
+
+}
+[class^='slot'] {
+padding-left: 2rem;
+}
+.slot,
+.break {
+border-radius: 1.5rem;
+display: flex;
+justify-content: center;
+}
+
+
+@media screen and (min-width: 700px) {
+.schedule {
+        display: grid;
+        grid-gap: 1em;
+        grid-template-rows:
+        [tracks] auto /* Foreshadowing! */
+        [time-0600] 1fr
+        [time-0630] 1fr
+        [time-0700] 1fr
+        [time-0730] 1fr
+        [time-0800] 1fr
+        [time-0830] 1fr
+        [time-0900] 1fr
+        [time-0930] 1fr
+        [time-1000] 1fr
+        [time-1030] 1fr
+        [time-1100] 1fr
+        [time-1130] 1fr
+        [time-1200] 1fr
+        [time-1230] 1fr
+        [time-1300] 1fr
+        [time-1330] 1fr
+        [time-1400] 1fr
+        [time-1430] 1fr
+        [time-1500] 1fr
+        [time-1530] 1fr
+        [time-1600] 1fr;
+        grid-template-columns:
+        [times] 4em
+        [track-1-start] 1fr
+        [track-1-end track-2-start] 1fr
+        [track-2-end track-3-start] 1fr
+        [track-3-end track-4-start] 1fr
+        [track-4-end];
+}
+
+.time-slot {
+        grid-column: times;
+}
+}
+
+/*===== BREAK =====*/
+.break {
+background: rgba(83, 83, 83, 0.21);
+align-items: center;
+font-size: 2rem;
+color: rgba(38, 38, 38);
+letter-spacing: 1.3px;
+font-weight: bold;
+padding: 0;
+position: relative;
+display: inline-block;
+cursor: pointer;
+}

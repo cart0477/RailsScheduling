@@ -1,0 +1,109 @@
+<h1>Today&#39s Work Orders</h1>
+<% require 'time' %>
+
+<!-- GRID CONTAINER -->
+<div class="main-container">
+
+    <!-- TIMING CONTAINER -->
+    # LEFTMOST COLUMN CONTAINING HOUR-BASED TIME MARKERS 
+    <div class="timing-container-column">
+        <div class="timings">
+            <div class="timing"></div>
+            <div class="timing">6:00</div>
+            <div class="timing">7:00</div>
+            <div class="timing">8:00</div>
+            <div class="timing">9:00</div>
+            <div class="timing">10:00</div>
+            <div class="timing">11:00</div>
+            <div class="timing">12:00</div>
+            <div class="timing">13:00</div>
+            <div class="timing">14:00</div>
+            <div class="timing">15:00</div>
+            <div class="timing">16:00</div>
+        </div>
+    </div>
+
+    <!-- TOP TECHNICIANS CONTAINER -->
+    # ORDERS TECHNICIANS BY COLUMN ON THE TOP OF THE GRID
+    <div class="technicians-container-row">
+        <div class="technicians">
+            <% @technicians.each do |technician| %>
+                <div 
+                class="technician">
+                    <%= technician.name %>
+                </div>
+            <% end %>
+        </div>
+    </div>
+
+    <!-- SUBGRID OF MAIN UI -->
+    <div class="subgrid-main-ui">
+
+        <!-- SLOTS -->
+        # CREATES "SLOT" OBJECTS FOR CSS GRID TO MANIPULATE
+        # LOOPS THROUGH ALL ORDERS, CREATES BREAK OBJECTS IN BETWEEN ORDERS
+        <% 
+        prev_tech_id = "-1"
+        pp_tech_id = "-2"
+        prev_time = Time.parse("10/1/19 6:00", "%m/%d/%Y %H:%M") {|year| year+2000}
+        @orders.each do |order| 
+        %>
+            <div class="slot">
+                <h2> Order ID: <%= order.id %> </h2>
+                <div class="details">
+                    <%      
+                    name, city = 'name', 'city'
+                    @locations.each do |location|
+                        if location.id == order.location_id then 
+                            name = location.name
+                            city = location.city
+                            break
+                        end 
+                    end 
+
+                    _, time_output = order.time.split(" ")
+                    time = Time.parse(order.time, "%m/%d/%Y %H:%M") {|year| year+2000}
+
+                    time_diff = (time - prev_time) / 60
+
+                    # A SERIES OF CHECKS TO FIND WHETHER TECHNICIAN ID'S ARE EQUAL
+                    # THIS ENSURES THAT BREAKS ONLY HAPPEN BETWEEN SAME TECHNICIAN
+                    # ONLY WORKS IF ALL CSV TECHNICIAN INFO IS IN ORDER
+
+                    if prev_tech_id == order.technician_id then
+                        prev_time = time + (order.duration.to_i * 60)
+                        pp_tech_id = order.technician_id
+
+                    elsif prev_tech_id == "-1" then
+                        prev_time = Time.parse("10/1/19 6:00", "%m/%d/%Y %H:%M") {|year| year+2000} + (order.duration.to_i * 60)
+                        prev_tech_id = order.technician_id
+                        
+                    elsif prev_tech_id != pp_tech_id then 
+                        prev_time = time + (order.duration.to_i * 60)
+                        prev_tech_id = order.technician_id
+                    else
+                        prev_time = Time.parse("10/1/19 6:00", "%m/%d/%Y %H:%M") {|year| year+2000}
+                        prev_tech_id = order.technician_id
+                        time_diff = (time - prev_time) / 60
+                        prev_time = time + (order.duration.to_i * 60)
+                    end
+
+                    
+                    %>
+                    <span> Location Name: <%= name %> </span>
+                    <span> What City: <%= city %> </span> 
+                    <span> Start Time: <%= time_output %> </span>
+                    <span> Cost: $<%= order.price %> </span>
+                </div>
+            </div>
+
+            <!-- BREAK SLOTS -->
+            <div class="break" onclick="getTimeDiff()">BREAK:
+                <span class="breakt"> <%= time_diff %> minutes between shifts </span>
+            </div>
+            
+        <% end %> 
+    
+    </div>
+</div>
+
