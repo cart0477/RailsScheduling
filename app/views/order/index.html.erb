@@ -5,7 +5,7 @@
 <div class="main-container">
 
     <!-- TIMING CONTAINER -->
-    # LEFTMOST COLUMN CONTAINING HOUR-BASED TIME MARKERS 
+    <!-- LEFTMOST COLUMN CONTAINING HOUR-BASED TIME MARKERS  -->
     <div class="timing-container-column">
         <div class="timings">
             <div class="timing"></div>
@@ -24,7 +24,7 @@
     </div>
 
     <!-- TOP TECHNICIANS CONTAINER -->
-    # ORDERS TECHNICIANS BY COLUMN ON THE TOP OF THE GRID
+    <!-- ORDERS TECHNICIANS BY COLUMN ON THE TOP OF THE GRID -->
     <div class="technicians-container-row">
         <div class="technicians">
             <% @technicians.each do |technician| %>
@@ -40,8 +40,8 @@
     <div class="subgrid-main-ui">
 
         <!-- SLOTS -->
-        # CREATES "SLOT" OBJECTS FOR CSS GRID TO MANIPULATE
-        # LOOPS THROUGH ALL ORDERS, CREATES BREAK OBJECTS IN BETWEEN ORDERS
+        <!-- CREATES "SLOT" OBJECTS FOR CSS GRID TO MANIPULATE -->
+        <!-- LOOPS THROUGH ALL ORDERS, CREATES BREAK OBJECTS IN BETWEEN ORDERS -->
         <% 
         prev_tech_id = "-1"
         pp_tech_id = "-2"
@@ -66,9 +66,9 @@
 
                     time_diff = (time - prev_time) / 60
 
-                    # A SERIES OF CHECKS TO FIND WHETHER TECHNICIAN ID'S ARE EQUAL
-                    # THIS ENSURES THAT BREAKS ONLY HAPPEN BETWEEN SAME TECHNICIAN
-                    # ONLY WORKS IF ALL CSV TECHNICIAN INFO IS IN ORDER
+                    # <!-- A SERIES OF CHECKS TO FIND WHETHER TECHNICIAN IDS ARE EQUAL -->
+                    # <!-- THIS ENSURES THAT BREAKS ONLY HAPPEN BETWEEN SAME TECHNICIAN -->
+                    # <!-- ONLY WORKS IF ALL CSV TECHNICIAN INFO IS IN ORDER -->
 
                     if prev_tech_id == order.technician_id then
                         prev_time = time + (order.duration.to_i * 60)
